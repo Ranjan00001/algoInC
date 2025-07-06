@@ -114,3 +114,16 @@ Constans in C
 2. Floating points: May use decimal notation or exponential notation ( using 'e' or 'E' prefix). May add suffix 'f' or 'F' for float, 'l' or 'L' for long double.
 3. Octals: They are prefixed with 0 so that we can differentiate them from other numbers
 hexadecimal => We prefix 0x or 0X
+
+Static
+1. Static variable will persist its value across multiple function calls but scope will remain same as the automatic variables
+2. Static global variable / functions can't be accessed from other files where non-static global variables / functions can be.
+
+Types of errors in c:
+Compile time errors
+    1. Syntax errors
+    2. Semantic error: When compiler couldn't understand the code written.
+Run-time errors
+    3. Run-time error
+    4. Linker error: happens at execution time when the definition of a function is not found on the expected objecct file (.o files generated after compilation)
+    5. Logical error
