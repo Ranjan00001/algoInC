@@ -117,6 +117,7 @@ Constans in C
 printf("%f\n", a);       // prints float (promoted to double)
 printf("%lf\n", b);      // prints double
 printf("%Lf\n", c);      // prints long double
+The format specifier for size_t (the return type of sizeof) is zu.
 
 Static
 1. Static variable will persist its value across multiple function calls but scope will remain same as the automatic variables
@@ -137,3 +138,29 @@ Compilation Process
 2. Synthesis phase: back end phase in which intermediate code is optimised and generated into machine code.
 
 Interpretor processing: Takes one line and converts it into machine code one by one.
+
+Header files
+1. stdio.h => This is a standard input/output header file. It contains all the library functions regarding standard input/output.
+2. conio.h => This is a console input/output header file.
+3. string.h => It contains all string related library functions like gets(), puts(),etc.
+4. stdlib.h => This header file contains all the general library functions like malloc(), calloc(), exit(), etc.
+5. math.h => This header file contains all the math operations related functions like sqrt(), pow(), etc.
+6. time.h => This header file contains all the time-related functions.
+7. ctype.h => This header file contains all character handling functions.
+8. stdarg.h => Variable argument functions are defined in this header file.
+9. signal.h => All the signal handling functions are defined in this header file.
+10. setjmp.h => This file contains all the jump functions.
+11. locale.h => This file contains locale functions.
+12. errno.h => This file contains error handling functions.
+13. assert.h => This file contains diagnostics functions.
+
+Function calls
+1. Call by values: When function is intended to only use the argument value (showing isde effect) then we call by value. It copies the value of arguments into parameters and hence function accesses the copies of the actual arguments passed.
+2. Call by reference: When function intends to modify the argument value then we call by reference so that the function can access & modify the actual value.
+    The parameters for call by reference function are pointer type.
+
+malloc: function for memory allocation with garbage initiallied, return NULL if failed.
+calloc: function for memory allocation with initiallied 0 value, return NULL if failed.
+realloc: function to adjust the memory allocation.
+
+sizeof(variable): This calculates the total 
