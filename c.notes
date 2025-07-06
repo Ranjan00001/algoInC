@@ -1,0 +1,110 @@
+// This is the C notes
+
+Preprocessor directives - Wherever it finds those things, the preprocessor simply replaces them then it goes to compilers, generated an expanded source code.
+1. #include - include header files
+2. #define - define variables or functions
+3. #undef - un define
+4. #ifdef - if defined
+5. #ifndef - if not defined
+6. #if, #else, #elif, #endif
+7. #error
+8. #pragma
+9. #line fake_line fake_file_name- to report fake line with fake file name
+10. #define toString(x) #x -to stringify x
+11. ##
+12. # - null directive, simply tells to do nothing
+
+
+Basics of C
+1. The format string can be %d (integer), %c (character), %s (string), %f (float) etc.
+2. & - it gives the memory address of a variable
+3. scanf("%d", #int_pointer) expects a pointer to int (int*), not an int - that can be address of an int
+4. local variable - variable that is defined in a function or block
+5. global variable - declared outside the function or block
+6. static variable - declared with the static keyword, it retaains it value across multiple function calls, automtically initiallied
+7. auto variables - all variable except static are auto variables. Explicitly  they can be declared with auto keyword. Doesn't retains its value
+8. extern variable - declared using this command and then it can be initiallied once in any files.
+
+gcc flags
+1. gcc -E => stops just after preprocessing and returns a file with .i extension
+2. 
+
+
+
+Structure data type: used with struct keyword
+1. Derived data types that allows grouping of many data types
+2. structure's members are accessed are using dot(.) operator
+
+union
+1. union enables us to store various data types in the same memory address. In contrast to structures, where each member has a separate memory space,
+2. useful if we need to represent many data types interchangeably
+3. It stores data for only one member at a time.
+4. Memory allocation happens according to the largest of the member
+
+Four charactersitics of keyword in C
+1. Reserved => cannot be used as identifiers in programs else raises compilation error
+2. predefined => Each keyword has a specific meaning that is assigned by the C language. These meanings are built into the C language's grammar and syntax and the compiler interprets them accordingly
+3. specific use => control structures, data types, flow control, and other language constructs else raises compilation error
+4. Standarized => standard across different compilers
+
+Keywords:
+auto
+char
+const
+double
+int
+long
+register: storge class specifier, suggests the compiler to store the variable in CPU register not a command. Cann't access the address of this variable through & operator.
+extern: declares a variable expecting to initiallise it in another file.
+float
+short
+signed
+static
+unsigned
+void
+volatile
+break: Exit loop or switch statements
+switch
+case
+default
+continue
+do
+else
+enum
+for
+goto: jumps to labeled statement line
+if
+return
+sizeof
+struct
+switch
+typedef
+union
+while
+
+Operators in C:
+1. Arithmetic opertaors: +, -, *, /, %, ++, --; ++a: Prefix increment; a++: Postfix increment; The same logic applies for every ops
+2. Relational operators: ==, !=, <=, >=, >, <
+3. Logical Operators: &&, ||, !
+4. Bitwsie operators: &, |, ~, ^, << {left shift}, >> {right shift}
+5. Miscellaneous: sizeof {gets the total bytes blocked for the variable}; ?: {ternary ops}; , (comma operator) {int a = (1 + 2, 3 + 4); a will be 7 not 3}; . (dot) {access struct members for direcct objects};
+                -> (arrow) {access struct members for pointer objects}; & (addressof) {get the memory address of any identifier}; * (dereference) {access the value stored at the pointer}
+                
+Associativity: When the precedence of ops clashes, then associativity (right-to-left or left-to-right) decides the order of processing opeators
++ - ! ~ ++ - - (type)* & sizeof, ?:, = += -= *= /= %=>>= <<= &= ^= |= {Have right-to-left associativity (with precedence separated in comma)}
+
+Escape Characters
+1. \a: Alarm or Beep
+2. \b: Backspace
+3. \f: Form Feed
+4. \n: New Line
+5. \r: Carriage Return
+6. \t: Tab (Horizontal)
+7. \v: Vertical Tab
+8. \\: Backslash
+9. \': Single Quote
+10. \": Double Quote
+11. \?: Question Mark
+12. \nnn: octal number
+13. \xhh: hexadecimal number
+14. \0: Null
