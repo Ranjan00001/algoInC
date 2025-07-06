@@ -113,7 +113,10 @@ Constans in C
 1. Integer: May add suffix as 'U' or 'u' for unsigned, 'L' or 'l' for long, 'LL' or 'll' for long long
 2. Floating points: May use decimal notation or exponential notation ( using 'e' or 'E' prefix). May add suffix 'f' or 'F' for float, 'l' or 'L' for long double.
 3. Octals: They are prefixed with 0 so that we can differentiate them from other numbers
-hexadecimal => We prefix 0x or 0X
+4. hexadecimal => We prefix 0x or 0X
+printf("%f\n", a);       // prints float (promoted to double)
+printf("%lf\n", b);      // prints double
+printf("%Lf\n", c);      // prints long double
 
 Static
 1. Static variable will persist its value across multiple function calls but scope will remain same as the automatic variables
