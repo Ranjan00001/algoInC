@@ -159,8 +159,40 @@ Function calls
 2. Call by reference: When function intends to modify the argument value then we call by reference so that the function can access & modify the actual value.
     The parameters for call by reference function are pointer type.
 
-malloc: function for memory allocation with garbage initiallied, return NULL if failed.
-calloc: function for memory allocation with initiallied 0 value, return NULL if failed.
+malloc: function for memory allocation with garbage initiallied, return NULL if failed. It assigns contiguous block of memory
+calloc: function for memory allocation with initiallied 0 value, return NULL if failed. It assigns contiguous block of memory
 realloc: function to adjust the memory allocation.
 
 sizeof(variable): This calculates the total 
+
+Pointer: a pointer is a variable that is used to store the address of another variable (of type int, char, float, array, function or any other pointer)
+Pointer Arithmetic
+1. increment: it doesn't need assignment after incrementing, it will automtically start pointing to next memory block depending on the data type it is pointing
+2. Decrement: same for decrementing
+3. Addition: When we do assignment, it's called as addition like p = p + 1
+4. Subtraction: We can also do Subtraction of two pointers that will result into the (diff of address)/(data type size)
+5. Comparison: 
+
+Dangling pointer:
+1. When the object being pointed through pointer is free()'d
+2. When the object being pointed through pointer falls out of current scope
+Note: To avoid dangling pointer issue, we should always initiallise the pointers with NULL value.
+
+Constant Pointers
+1. int * const ptr
+2. The address which it is pointing cannot be changed
+
+Pointer to Constant
+1. const int * ptr
+2. The address which it points can be changed
+3. The value of the variable it is pointing cannot be changed using this pointer
+
+void pointer cannot be dereferenced directly, it need to be changed into other pointers
+
+Example of NULL pointers:
+1. int *ptr=(int *)0;  
+2. float *ptr=(float *)0;  
+3. char *ptr=(char *)0;  
+4. double *ptr=(double *)0;  
+5. char *ptr='\0';  
+6. int *ptr=NULL;  
