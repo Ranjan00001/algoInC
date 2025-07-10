@@ -87,8 +87,9 @@ Operators in C:
 2. Relational operators: ==, !=, <=, >=, >, <
 3. Logical Operators: &&, ||, !
 4. Bitwsie operators: &, |, ~, ^, << {left shift}, >> {right shift}
-5. Miscellaneous: sizeof {gets the total bytes blocked for the variable}; ?: {ternary ops}; , (comma operator) {int a = (1 + 2, 3 + 4); a will be 7 not 3}; . (dot) {access struct members for direcct objects};
-                -> (arrow) {access struct members for pointer objects}; & (addressof) {get the memory address of any identifier}; * (dereference) {access the value stored at the pointer}
+5. Miscellaneous: sizeof {gets the total bytes blocked for the variable}; ?: {ternary ops}; , (comma operator) {int a = (1 + 2, 3 + 4); a will be 7 not 3}; . (dot) {access struct members for direct objects};
+                -> (arrow) {access struct members for pointers}; & (addressof) {get the memory address of any identifier}; * (dereference) {access the value stored at the pointer}
+Note: object.members and pointer->member {way to use access operators}
                 
 Associativity: When the precedence of ops clashes, then associativity (right-to-left or left-to-right) decides the order of processing opeators
 + - ! ~ ++ - - (type)* & sizeof, ?:, = += -= *= /= %=>>= <<= &= ^= |= {Have right-to-left associativity (with precedence separated in comma)}
@@ -196,3 +197,37 @@ Example of NULL pointers:
 4. double *ptr=(double *)0;  
 5. char *ptr='\0';  
 6. int *ptr=NULL;  
+
+
+Write operator precedence here.Operator Precedence in C:
+Operator Precedence in C:
+
+| Precedence Level  | Operators                        | Description                                     | Associativity     |
+|-------------------|----------------------------------|-------------------------------------------------|-------------------|
+| 1 (Highest)       | `()` `[]` `->` `.`               | Function call, array subscript, structure access| Left-to-right     |
+|                   | `++` `--` (postfix)              | Post-increment, post-decrement                  |                   |
+| 2                 | `++` `--` (prefix)               | Pre-increment, pre-decrement                    | Right-to-left     |
+|                   | `+` `-` (unary)                  | Unary plus, unary minus                         |                   |
+|                   | `!` `~`                          | Logical NOT, bitwise NOT                        |                   |
+|                   | `*`                              | Dereference (indirection)                       |                   |
+|                   | `&`                              | Address-of                                      |                   |
+|                   | `sizeof`                         | Size of a data type or variable                 |                   |
+|                   | `(type)`                         | Type casting                                    |                   |
+| 3                 | `*` `/` `%`                      | Multiplication, division, modulo                | Left-to-right     |
+| 4                 | `+` `-`                          | Addition, subtraction                           | Left-to-right     |
+| 5                 | `<<` `>>`                        | Bitwise left shift, right shift                 | Left-to-right     |
+| 6                 | `<` `<=` `>` `>=`                | Relational operators                            | Left-to-right     |
+| 7                 | `==` `!=`                        | Equality and inequality                         | Left-to-right     |
+| 8                 | `&`                              | Bitwise AND                                     | Left-to-right     |
+| 9                 | `^`                              | Bitwise XOR                                     | Left-to-right     |
+| 10                | `|`                              | Bitwise OR                                      | Left-to-right     |
+| 11                | `&&`                             | Logical AND                                     | Left-to-right     |
+| 12                | `||`                             | Logical OR                                      | Left-to-right     |
+| 13                | `?:`                             | Ternary conditional operator                    | Right-to-left     |
+| 14                | `=` `+=` `-=` `*=` `/=` `%=`     | Assignment operators                            | Right-to-left     |
+|                   | `<<=` `>>=` `&=` `^=` `|=`       |                                                 |                   |
+| 15 (Lowest)       | `,`                              | Comma (sequence operator)                       | Left-to-right     |
+
+Associativity:
+- **Left-to-right**: Operators at the same precedence level are evaluated from left to right.
+- **Right-to-left**: Operators at the same precedence level are evaluated from right to left.
