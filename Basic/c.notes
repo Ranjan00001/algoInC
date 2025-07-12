@@ -230,3 +230,19 @@ Operator Precedence in C:
 Associativity:
 - **Left-to-right**: Operators at the same precedence level are evaluated from left to right.
 - **Right-to-left**: Operators at the same precedence level are evaluated from right to left.
+
+String functions (from <String.h>)
+1. strlen: length of a string
+2. puts and fputs
+3. gets and fgets
+4. strcat: strcat(str1, str2) => str1 is modified to str1 + str2
+5. strcmp: Comparison of 2 string literals
+6. strrev: reversing a string
+7. strlwr: to lower case
+8. strupr: to upper case
+9. strstr: to find the first occurence of a substring in a string
+
+| Declaration Type     | Can Reassign? | Modifiable?                           |
+| -------------------- | ------------- | ------------------------------------  |
+| `char str[] = "Hi";` | ❌ No          | ✅ Yes (individual characters)        |
+| `char *str = "Hi";`  | ✅ Yes         | ❌ No (string literals are read-only) |
