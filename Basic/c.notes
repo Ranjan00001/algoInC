@@ -161,7 +161,7 @@ Function calls
     The parameters for call by reference function are pointer type.
 
 malloc: function for memory allocation with garbage initiallied, return NULL if failed. It assigns contiguous block of memory
-calloc: function for memory allocation with initiallied 0 value, return NULL if failed. It assigns contiguous block of memory
+calloc: function for memory allocation with initiallied 0 value, return NULL if failed. It assigns contiguous multiple blocks of memory
 realloc: function to adjust the memory allocation.
 
 sizeof(variable): This calculates the total 
@@ -199,14 +199,13 @@ Example of NULL pointers:
 6. int *ptr=NULL;  
 
 
-Write operator precedence here.Operator Precedence in C:
 Operator Precedence in C:
 
 | Precedence Level  | Operators                        | Description                                     | Associativity     |
 |-------------------|----------------------------------|-------------------------------------------------|-------------------|
 | 1 (Highest)       | `()` `[]` `->` `.`               | Function call, array subscript, structure access| Left-to-right     |
-|                   | `++` `--` (postfix)              | Post-increment, post-decrement                  |                   |
-| 2                 | `++` `--` (prefix)               | Pre-increment, pre-decrement                    | Right-to-left     |
+| 2                 | `++` `--` (postfix)              | Post-increment, post-decrement                  |                   |
+|                   | `++` `--` (prefix)               | Pre-increment, pre-decrement                    | Right-to-left     |
 |                   | `+` `-` (unary)                  | Unary plus, unary minus                         |                   |
 |                   | `!` `~`                          | Logical NOT, bitwise NOT                        |                   |
 |                   | `*`                              | Dereference (indirection)                       |                   |
