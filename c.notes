@@ -246,3 +246,32 @@ String functions (from <String.h>)
 | -------------------- | ------------- | ------------------------------------  |
 | `char str[] = "Hi";` | ❌ No          | ✅ Yes (individual characters)        |
 | `char *str = "Hi";`  | ✅ Yes         | ❌ No (string literals are read-only) |
+
+typedef: It's way to rename some type
+Ex: typedef unsigned int u
+    Now u will refer to as `unsigned int` type.
+
+math functions (from <Math.h>)
+1. ceil
+2. floor
+3. sqrt
+4. pow
+5. abs
+6. sin
+7. cos
+8. tan
+9. exp
+10. log
+11. log10
+12. round
+13. fabs: works for any number
+14. fmod: returns remainder
+15. sinh
+16. cosh
+17. 
+
+Structure padding: An optimisation technique used by compilers to pad the bytes so that CPU read cycle could be reduced.
+    This is a defult nature of compilers
+    TO avoid that, we need to use `#pragma pack(1)` directive 
+    Or we use `__attribute__((packed))` just after defining the struct
+    
