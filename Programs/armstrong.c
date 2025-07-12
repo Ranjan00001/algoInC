@@ -2,14 +2,20 @@
 #include <math.h>
 #include <stdbool.h>
 
-bool isArmstrong(int n) {
-    // get number of digits in n
+int getNumDigits(int n) {
     int copy = n;
     int digits = 0;
     while (copy) {
         digits += 1;
         copy /= 10;
     }
+    return digits;
+}
+
+bool isArmstrong(int n) {
+    // get number of digits in n
+    int copy = n;
+    int digits = getNumDigits(n);
 
     // access each digits and then do the operation and check sum
     int sum = 0;
@@ -22,7 +28,7 @@ bool isArmstrong(int n) {
 }
 
 int main() {
-    int n = 154;
+    int n = 153;
     bool a = isArmstrong(n);
     printf("%d is a armstrong number: %s\n", n, a ? "true": "false");
     return 0;
