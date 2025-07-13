@@ -1,4 +1,5 @@
 #include <stdio.h>
+#define entry main  // renames main method to entry
 
 int swap(int * a, int * b) {
     *b = *b + *a;
@@ -7,7 +8,7 @@ int swap(int * a, int * b) {
     return 0;
 }
 
-int main() {
+int entry() {
     int a, b;
     a = 12; b = 14;
     printf("Before swapping a and b are %d, %d\n", a, b);
