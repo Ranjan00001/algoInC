@@ -274,4 +274,11 @@ Structure padding: An optimisation technique used by compilers to pad the bytes 
     This is a defult nature of compilers
     TO avoid that, we need to use `#pragma pack(1)` directive 
     Or we use `__attribute__((packed))` just after defining the struct
-    
+
+Tokens in c: The basic elements recognised by compiler si called as token. To count number of tokens, just keep separating them from left to right.
+1. identifiers
+2. Keywords
+3. Constans
+4. Operators
+5. String literals
+6. Separators
