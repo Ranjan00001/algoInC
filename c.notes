@@ -282,3 +282,22 @@ Tokens in c: The basic elements recognised by compiler si called as token. To co
 4. Operators
 5. String literals
 6. Separators
+
+RUN: To use helper functions in my project
+1. First create an object (.o) file: `gcc -c helpers/*.c`
+2. Now create a library of these object files: `ar rcs libhelpers.a helpers/*.o`
+| Part           | Meaning                                                                                                                               |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `ar`           | The **archiver** utility. It's used to create, modify, and extract from archive files (static libraries in C).                        |
+| `r`            | **Replace** or add the files into the archive. If the archive already exists, it updates existing `.o` files or adds new ones.        |
+| `c`            | **Create** the archive even if it doesn't already exist. (Suppresses warning if it does.)                                             |
+| `s`            | **Index** the archive (adds a symbol table). This makes the library usable by the linker (`gcc`) without needing `ranlib` separately. |
+| `libhelpers.a` | The **name of the static library** being created. Convention: `lib<name>.a`.                                                          |
+| `helpers/*.o`  | All `.o` (compiled object) files in the `helpers/` directory that will be bundled into the library.                                   |
+
+
+To do it more clean, i'm using makeFile
+Usage:
+1. make                # Build libhelpers.a (default)
+2. make insertionSort  # Build insertionSort using the static lib
+3. make clean          # Clean up all compiled files
