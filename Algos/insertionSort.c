@@ -9,14 +9,14 @@ void swap(int ind1, int ind2, int *array) {
 
 void insertionSort(int n, int array[]) {
     int current = 1;    // Can take the waiver of that fact that one element in itself will always be sorted, so starting from 1
-    // We'll take the (current)th element and insert it into the sorted section
-    int key;
+    // We'll take the (current)th element and insert it into the sorted section at the correct order by compairing into sorted part
     while (current < n) {
         int sortedIndex = current - 1;
-        while (sortedIndex > 0 && array[current] < array[sortedIndex]) {
-            sortedIndex--;
+        int unsortedIndex = current;
+        while (sortedIndex >= 0 && array[unsortedIndex] < array[sortedIndex]) {
+            swap(sortedIndex, unsortedIndex, array);
+            sortedIndex--; unsortedIndex--;
         }
-        swap(sortedIndex, current, array);
         current++;
     }
 }

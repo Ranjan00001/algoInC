@@ -22,7 +22,11 @@ helpers/%.o: helpers/%.c
 
 # Example program that uses the static library
 insertionSort: Algos/insertionSort.c $(STATIC_LIB)
-	$(CC) $(CFLAGS) $< -L. -lhelpers -o $@  # Link insertionSort.c with libhelpers.a
+	$(CC) $(CFLAGS) $< -L. -lhelpers -o $@.out  # Link insertionSort.c with libhelpers.a
+
+# Generic rule: if you type `make <name>`, it looks for Algos/<name>.c
+%: Algos/%.c $(STATIC_LIB)
+	$(CC) $(CFLAGS) $< -L. -lhelpers -o $@.out
 
 # Clean rule to remove all generated files
 clean:
