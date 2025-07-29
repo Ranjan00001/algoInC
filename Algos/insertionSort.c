@@ -1,11 +1,6 @@
 #include <stdio.h>
 #include "../header/printArray.h"
-
-void swap(int ind1, int ind2, int *array) {
-    int temp = array[ind1];
-    array[ind1] = array[ind2];
-    array[ind2] = temp;
-}
+#include "../header/swapInArray.h"
 
 void insertionSort(int n, int array[]) {
     int current = 1;    // Can take the waiver of that fact that one element in itself will always be sorted, so starting from 1
@@ -14,7 +9,7 @@ void insertionSort(int n, int array[]) {
         int sortedIndex = current - 1;
         int unsortedIndex = current;
         while (sortedIndex >= 0 && array[unsortedIndex] < array[sortedIndex]) {
-            swap(sortedIndex, unsortedIndex, array);
+            swapInArray(sortedIndex, unsortedIndex, array);
             sortedIndex--; unsortedIndex--;
         }
         current++;
