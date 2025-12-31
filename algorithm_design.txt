@@ -1,0 +1,10 @@
+Algorithm Design techniques
+1. Incremental technique: Every we keep increasing our result part.
+    Ex: We use this in insertionSort ans selectionSort. Every time we keep increasing our sorted portion.
+
+2. Divide and conquer: We divide the problem into smaller subproblems and then conquer it.
+    Ex: MergeSort
+    This method's natural advantage is that it guves us fast way to analyse the run-time
+    Typically this solve recursive problems.
+
+

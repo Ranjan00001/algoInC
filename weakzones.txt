@@ -1,0 +1,467 @@
+## 🧠 MINDSET: Think Like the Computer
+
+Before tips, here's a key mindset:
+
+> **Assume the computer does exactly what you said, not what you meant.**
+> The bug is usually not in the logic, but in the details.
+
+---
+
+## ✅ PRACTICAL TIPS FOR HANDLING CORNER CASES
+
+### 1. **Draw Small Input Examples (Manually)**
+
+Run your code **by hand** on a small input like `{3, 1, 2}` or `{1, 2}` or `{}`. Write down:
+
+* The value of each variable at every step.
+* Where you enter and exit recursive calls.
+
+This **immediately exposes off-by-one** or memory issues.
+
+---
+
+### 2. **Understand Array Boundaries**
+
+This is **the #1 cause** of bugs in C:
+
+* **For loop:** `for (i = 0; i < size; i++)` ✅
+* `malloc(size * sizeof(...))` — always double-check `size` matches the number of **elements** you need (not `end - start` if inclusive).
+* Is `start` inclusive? Is `end` inclusive or exclusive? Always **write this in a comment**.
+
+👉 Example:
+
+```c
+// merge(array, p, q, r): merge array[p..q] and array[q+1..r] into array[p..r]
+```
+
+This makes future debugging MUCH easier.
+
+---
+
+### 3. **Use Assertions Early**
+
+C has `assert()` in `<assert.h>`. Use it to catch logic errors as they happen.
+
+```c
+#include <assert.h>
+// ...
+assert(p <= q && q < r);
+```
+
+---
+
+### 4. **Print Everything in Debug Mode**
+
+Add debug prints to track:
+
+```c
+printf("merge(%d, %d, %d)\n", p, q, r);
+printf("Left array: "); printArray(array, p, q);
+printf("Right array: "); printArray(array, q+1, r);
+```
+
+Then comment them out or wrap in `#ifdef DEBUG` blocks later.
+
+---
+
+### 5. **Write Tests for Edge Cases**
+
+For sorting:
+
+* Empty array `{}`
+* One element `{4}`
+* Two elements `{2, 1}`
+* All elements same `{5, 5, 5}`
+* Already sorted `{1, 2, 3}`
+* Reverse sorted `{3, 2, 1}`
+* Duplicates `{4, 2, 2, 4}`
+
+Write a loop that calls your sort function on all these, and checks if the result is sorted.
+
+---
+
+### 6. **Use `valgrind` to Check Memory**
+
+If you're on Linux/Mac:
+
+```bash
+valgrind ./your_program
+```
+
+It will tell you if you're reading/writing out of bounds or leaking memory. Seriously helpful for malloc bugs.
+
+---
+
+### 7. **Comment Your Assumptions**
+
+Before writing a function like `merge()`, write:
+
+```c
+// Assumes: p <= q < r
+// Merges array[p..q] and array[q+1..r]
+// Result is stored in array[p..r]
+```
+
+You'll catch inconsistencies faster just by writing them down.
+
+---
+
+## 🔁 Build Mental Habits
+
+### 🔹 Always ask:
+
+* Am I accessing memory out of bounds?
+* What if size = 0? What if size = 1?
+* Did I match `malloc` size to the number of elements?
+* Am I passing inclusive or exclusive indexes?
+
+### 🔹 When you're stuck:
+
+* **Step through the code manually**, write down every variable on paper.
+* **Reduce the input size** until it’s trivially traceable (e.g., 2 elements).
+* Comment out complicated parts and reintroduce them step-by-step.
+
+---
+
+## 🧰 BONUS: Utilities for Debugging
+
+Here’s a simple print utility for arrays:
+
+```c
+void printArray(int arr[], int from, int to) {
+    printf("[");
+    for (int i = from; i <= to; i++) {
+        printf("%d", arr[i]);
+        if (i != to) printf(", ");
+    }
+    printf("]\n");
+}
+```
+
+---
+
+## TL;DR Checklist
+
+✅ Understand your index ranges (inclusive/exclusive)
+✅ Always test edge cases: empty, 1-element, duplicates
+✅ Use debug prints + draw it out
+✅ Use assertions and `valgrind`
+✅ Write down function preconditions and postconditions
+✅ Don’t trust yourself — make the code prove it’s right
+
+---
+
+If you'd like, I can give you a **printable checklist** or help you build a test suite around your sorting function. Want that?
+
+
+
+
+
+
+
+
+
+
+
+Absolutely — practicing with purpose is one of the best ways to level up, especially when you're working in C and want to sharpen your edge-case handling and low-level thinking.
+
+Here’s a **targeted problem set** designed to help you practice:
+
+---
+
+## 🧠 Focus Areas:
+
+1. **Index boundaries (inclusive/exclusive)**
+2. **Array memory allocation (malloc, copy)**
+3. **Recursive thinking**
+4. **Off-by-one errors**
+5. **Edge case handling (0 elements, 1 element, duplicates, etc.)**
+
+---
+
+## 📘 Problem Set (10 Problems)
+
+---
+
+### 🔹 **1. Merge Two Sorted Arrays (Manual Merge)**
+
+**Description:** Write a function to merge two sorted arrays into one new sorted array.
+**Focus:** Array bounds, malloc, copying
+**Edge Cases:** One or both arrays empty, duplicates
+
+---
+
+### 🔹 **2. Implement Merge Sort (Like you just did)**
+
+**Goal:** Fix your implementation with edge case handling
+**Challenge:** Add test cases for:
+
+* Already sorted array
+* Reverse sorted
+* All same values
+* Very large size (e.g., 100,000 elements)
+
+---
+
+### 🔹 **3. Remove Duplicates from Sorted Array**
+
+**Description:** Given a sorted array, remove all duplicates in place. Return new length.
+**Focus:** Pointer arithmetic, in-place update
+**Edge Cases:** All elements same, all unique
+
+---
+
+### 🔹 **4. Rotate Array Right by K Steps**
+
+**Example:** `{1,2,3,4,5}` → rotate by 2 → `{4,5,1,2,3}`
+**Challenge:** Do it in-place with O(1) extra space
+**Focus:** Index wrapping, modular arithmetic
+
+---
+
+### 🔹 **5. Reverse a Subsection of Array**
+
+**Description:** Reverse array from index `i` to `j`.
+**Focus:** Bounds checking, pointer logic
+**Edge Cases:** `i == j`, `i > j` (should return), `i < 0`, `j > size`
+
+---
+
+### 🔹 **6. Binary Search (Recursive and Iterative)**
+
+**Goal:** Implement both versions of binary search
+**Focus:** Midpoint logic, avoiding infinite loops
+**Edge Cases:** Empty array, 1 element, all same values
+
+---
+
+### 🔹 **7. Subarray Sum Equals K (Sliding Window)**
+
+**Description:** Given array of positive integers, find if there's a contiguous subarray summing to `k`.
+**Focus:** Window bounds, index tracking
+**Edge Cases:** No subarray matches, full array matches
+
+---
+
+### 🔹 **8. Palindrome Checker (Array/Pointer Version)**
+
+**Description:** Check if a char array is a palindrome
+**Focus:** Pointer math, bounds, null-termination
+**Edge Cases:** Empty string, single char, spaces
+
+---
+
+### 🔹 **9. Find Kth Smallest Element (Using QuickSelect)**
+
+**Goal:** Implement QuickSelect algorithm (like QuickSort, but partial)
+**Focus:** Recursion, partitioning, avoiding full sort
+**Edge Cases:** k out of bounds, duplicates
+
+---
+
+### 🔹 **10. Implement a Dynamic Array (Vector in C)**
+
+**Description:** Build your own `struct` for dynamic array:
+
+```c
+typedef struct {
+    int *data;
+    int size;
+    int capacity;
+} Vector;
+```
+
+Implement:
+
+* `void init(Vector *vec)`
+* `void push(Vector *vec, int val)`
+* `int get(Vector *vec, int index)`
+* `void freeVec(Vector *vec)`
+
+**Focus:** Malloc, realloc, memory leaks
+**Edge Cases:** Access out of bounds, empty, shrinking
+
+---
+
+## ✅ Bonus: Practice Plan
+
+If you want a practice schedule, here's a suggestion:
+
+| Day | Problem(s) | Focus                            |
+| --- | ---------- | -------------------------------- |
+| 1   | 1 & 2      | Array boundaries & sorting logic |
+| 2   | 3 & 4      | In-place edits, pointer math     |
+| 3   | 5 & 6      | Sub-array & recursion logic      |
+| 4   | 7 & 8      | Sliding window & string pointers |
+| 5   | 9          | Recursion with selection         |
+| 6   | 10         | Full memory management           |
+| 7   | Review all | Rerun all with edge test cases   |
+
+---
+
+## 🧪 Want Test Cases & Starter Templates?
+
+I can provide you with:
+
+* Starter code for each problem
+* Unit test framework in C (lightweight)
+* A reusable test runner
+  Would you like that?
+
+
+
+
+
+
+
+
+What you're describing is **very common**, and it’s not a sign of lacking intelligence — it’s about **mental fatigue**, **debugging mindset**, and the **stress response** when things don’t "just work." Let’s break this down and give you **tools and habits** to regain control when your mind blanks out.
+
+---
+
+## 🧠 WHY THIS HAPPENS
+
+### 1. **Mental Exhaustion**
+
+You've already burned energy writing and thinking hard about the problem. Now your brain is tired, and debugging feels like "extra punishment."
+
+### 2. **Emotional Pressure**
+
+You've invested time and feel it's “almost done.” The bug becomes an emotional block, not a technical one. Panic sets in: *"Why isn't it working? What am I missing?"*
+
+### 3. **Lack of Process**
+
+Debugging without a clear system leads to guesswork, frustration, and ultimately mental freeze.
+
+---
+
+## ✅ WHAT TO DO: THE “REBOOT + REBOOT” METHOD
+
+Here’s a system to follow **exactly when** you feel your brain shutting down while debugging.
+
+---
+
+### 🌀 PHASE 1: REBOOT YOURSELF
+
+1. **Stop Typing. Step Away.**
+   Even 2 minutes walking around or stretching resets your mental cache. You must physically break the loop.
+
+2. **Breathe + Label the Feeling.**
+   Literally say to yourself:
+
+   > “I feel stuck and overwhelmed. That’s okay. I’ve solved harder problems before.”
+
+   This reduces emotional resistance. It’s not fluff — it’s neuroscience.
+
+3. **Write (not think) what the bug is.**
+   On paper or in a comment:
+
+   ```c
+   // Expected: [1, 2, 3]
+   // Got: \[1, 3, 2]
+   // Hypothesis: merge is misplacing elements after q
+   ```
+
+    ````
+    Writing **slows down your thinking**, which is exactly what helps you regain clarity.
+
+    ---
+
+### 🔁 PHASE 2: REBOOT YOUR DEBUGGING APPROACH
+
+Now with a clearer head, apply a systematic debugging flow:
+
+---
+
+### 🔎 1. **Minimal Input Test**
+Reduce the problem to the **smallest possible failing case.**
+
+Example: If you're sorting 100 elements, try just 2 or 3:
+```c
+int A[] = {2, 1};
+````
+
+If that fails, it's easy to trace.
+
+---
+
+### 🧩 2. **Print Key Variables**
+
+Identify 3–5 values that are essential to your logic, and print them **before** the bug happens.
+
+```c
+printf("merge(%d, %d, %d)\n", p, q, r);
+printArray(array, p, r);
+```
+
+Don’t just guess. Print what actually happens. You'll often find the bug without even trying hard.
+
+---
+
+### 🧱 3. **Assert Assumptions**
+
+Start writing things like:
+
+```c
+assert(p <= q && q < r);
+assert(array != NULL);
+```
+
+You’ll be amazed how quickly this catches logical errors you thought "couldn't happen."
+
+---
+
+### 🪞 4. **Trace With Comments**
+
+Use comments to trace logic:
+
+```c
+// Before merge: [2, 1]
+// Left = [2], Right = [1]
+// Should become [1, 2]
+```
+
+You often spot inconsistencies just by describing what should happen.
+
+---
+
+### 📤 5. **Ask ChatGPT or a Friend — But Show Your Thoughts**
+
+If you get stuck, **show your reasoning** when asking:
+
+> “I expected merge(\[2], \[1]) → \[1, 2], but got \[2, 1]. I think maybe my copy logic skips an index.”
+
+Explaining it clearly is often enough to make the solution pop into your own head.
+
+---
+
+## ⚒️ Build a Debugging Checklist (Keep It Near Your Code)
+
+Here’s one you can print or copy into your IDE:
+
+---
+
+**🛠️ DEBUGGING CHECKLIST:**
+
+* [ ] Am I accessing memory out of bounds?
+* [ ] Are my loop boundaries correct (especially for inclusive/exclusive)?
+* [ ] Did I malloc the right number of elements?
+* [ ] Is my recursive base case correct?
+* [ ] What’s the smallest input that fails?
+* [ ] Have I printed key variable values?
+* [ ] Did I describe in comments what should happen at each step?
+* [ ] Have I taken a break and cleared my mind?
+
+---
+
+## 💬 Final Reassurance
+
+You’re clearly motivated and you *care* — that’s more important than any single bug. You’re not alone in feeling this way. Even senior engineers hit these walls regularly.
+
+The key difference is: **they have a process to push through it.**
+
+And now — you do too.
+
+---
+
+If you'd like, I can help you turn this into a printable **one-page debugging cheat sheet** or even a VS Code snippet. Want that?
