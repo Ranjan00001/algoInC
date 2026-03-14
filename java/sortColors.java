@@ -8,7 +8,9 @@ You must solve this problem without using the library's sort function.
 
 class Solution {
     public void sortColors(int[] nums) {
-        int redCount, whiteCount, blueCount = 0;
+        int redCount = 0;
+        int whiteCount = 0;
+        int blueCount = 0;
 
         for (int i = 0; i < nums.length; i++) {
             if (nums[i] == 0) {
