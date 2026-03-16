@@ -7,4 +7,29 @@ Algorithm Design techniques
     This method's natural advantage is that it guves us fast way to analyse the run-time
     Typically this solve recursive problems.
 
+3. Adding elements to a subarray doesn't maximises the mimimums
+4. Mathematical Monotonicity (Subarrays):
+    - Minimums/Maximums: Adding elements to a subarray never increases the minimum, and never decreases the maximum.
+    - Sums (Non-negative): Expanding a subarray of non-negative integers only increases the sum (basis for Sliding Window).
+    - Bitwise AND: Adding elements to a subarray never increases the Bitwise AND.
+    - Bitwise OR: Adding elements to a subarray never decreases the Bitwise OR.
+    - GCD: Adding elements to a subarray never increases the Greatest Common Divisor.
 
+5. Prefix Properties:
+    - Subarray Sum: The sum of any contiguous subarray `arr[i...j]` is `PrefixSum[j] - PrefixSum[i-1]`.
+    - XOR Logic: `A ^ A = 0`. The XOR of any subarray `arr[i...j]` is `PrefixXOR[j] ^ PrefixXOR[i-1]`.
+
+6. Greedy Choice and Resets (Kadane's Algorithm concept):
+    - If a running prefix sum becomes negative, it will only drag down the sum of any future subarray that includes it. It is optimal to reset the running sum to 0.
+
+7. Two Pointers / Search Space Reduction (Sorted Arrays):
+    - If `arr[L] + arr[R] > target`, increasing `L` only makes the sum larger. We must decrease `R`. This selectively prunes an entire row of combinations in O(1) time.
+
+8. Symmetry (Palindromes):
+    - Every palindrome mirrors around its center. A string can be expanded from `(2N - 1)` possible centers (a character, or between two characters) rather than checking all O(N^2) subarrays.
+
+9. Fast & Slow Pointers (Floyd's Cycle Finding):
+    - Moving one pointer at 1x speed and another at 2x speed will mathematically guarantee they meet if a cycle exists, without needing extra memory for a Hash Set.
+
+10. Cancellation (Boyer-Moore Majority Vote):
+    - If a single element constitutes strictly more than half the array, simultaneously discarding any two *distinct* elements will preserve that element's majority status in the remaining array.
