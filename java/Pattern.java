@@ -162,11 +162,13 @@ public class Pattern {
         // String firstLine = getNthChar(s, 0, 4); // 0 -> 4 -> 8 (so on if available) (also insert space after every char)
         // String secondLine = getNthChar(s, 1, 2);   // 1 -> 3 -> 5 (so on if available) (no space)
         // String thirdLine = getNthChar(s, 2, 4); // 2 -> 6 -> 10(so on if available) (with space)
+        if (numRows <= 1) {
+            return s;
+        }
         String result = "";
         String nthRow;
-        int currentCycle = 0;
         // int slantLineCharCount = numRows - 2;
-        int cycleLen = numRows - 2; // slantLineCharCount + numRows;
+        int cycleLen = (numRows) * 2 - 2; // slantLineCharCount + numRows;
         // One decision point is remained to align (0, n - 1), (1, n - 2)
         // After that alignment, the jump for each group will become the same
         // jump for (0th, (n-1)th) -> numRows + slantLineCharCount
@@ -174,22 +176,31 @@ public class Pattern {
         // jump for (2, (n - 3)rd) -> (numRows * 2) - 6
         for (int row = 0; row < numRows; row++) {
             nthRow = "";
+            int currentCycle = 0;
             int index = (currentCycle * cycleLen) + row;
+            System.out.println("so far" + result);
             while (index < s.length()) {
                 nthRow += s.substring(index, index + 1);
+                currentCycle++;
+                if (row != 0 && row != numRows - 1) {
+                    int slantIndex = (currentCycle * cycleLen) - row;
+                    if (slantIndex < s.length()) {
+                        nthRow += s.substring(slantIndex, slantIndex + 1);
+                    }
+                }
                 index = (currentCycle * cycleLen) + row;
+                System.out.println("" + nthRow + index);
             }
-            currentCycle ++;
             result += nthRow;
         }
         return result;
     }
 
-    static String getNthChar(String str, int start, int n) {
-        String result = "";
-        for (int i = start; i < str.length(); i += n) {
-            result = result.concat(str.substring(i, i + 1));
-        }
-        return result;
-    }
+    // static String getNthChar(String str, int start, int n) {
+    //     String result = "";
+    //     for (int i = start; i < str.length(); i += n) {
+    //         result = result.concat(str.substring(i, i + 1));
+    //     }
+    //     return result;
+    // }
 }
