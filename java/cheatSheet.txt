@@ -1,0 +1,73 @@
+ever execute action statements (like printing, loops, or math) directly inside the body of a class. They must live inside a method or constructor.
+Doesn't support multiple inheritance but supports multiple implementation of interface.
+In default method execution from interface the implementing class need to tell which interface's default method to be executed...
+
+1. Java Polymorphism: Doing a single operation in multiple ways.
+    a. Compile-time Polymorphism (Method overloading)
+    b. Run-time Polymorphism (Method over-riding)
+
+2. Java Multi-threading: 
+    a. Difference b/w thread and process: every thread comes under a process.
+        A process can have multiple thread but not vice-versa
+    b. Java Runnable Interface: In Java, java.lang.Runnable is an interface that a class
+        must implement if its instances are to be executed by a thread.
+    c. Java Thread Class: Thread programming is possible with Java’s Thread class.
+        The Thread class contains constructors and methods for creating and operating on threads.
+        Thread is a subclass of Object that implements the Runnable interface.
+    d. Java threads bring true parallelism rather than python that just use 1 core at a time.
+    e. Java threads are self-contained, so an unhandled error on a thread does not affect the main thread
+        To catch the unhandled error, we must use setUncaughtExceptionHandler
+
+3. Collection.spliterator(): while .iterator is strictly sequential Ad limited to single thread,
+    it is specifically optimised to break data sets into smaller segments and allows multi-threading.
+    Three methods in Spliterator:
+    a. trySplit(): divides the data exactly in half. The original spliterator retains the remaining half,
+        while the newly created spliterator is handed off to a separate thread
+    b. tryAdvance(Consumer action): t combines the traditional hasNext() and next() iterator methods into a single process.
+        It checks if an element exists, executes a defined action on it, and returns true.
+        If the collection is empty or fully consumed, it returns false
+    c. estimateSize(): It helps internal frameworks determine if a dataset is large enough
+        to warrant splitting into more threads or if it should continue running sequentially.
+
+4. Error vs Exception: What is the Difference?
+    An error implies that there is a major problem that a reasonable programme should not attempt to solve
+    whereas an exception denotes a set of circumstances that a reasonable programme would attempt to catch.
+
+5. If the String already exists in a literal, the new reference variable will point to the currently existing literal. It uses String Pool.
+
+6. If the String is in Object, it always creates a new Object.
+
+7. StringBuffer vs StringBuilder
+    a. Both are used for growable and writable String
+    b. StringBuffer is thread-safe while StringBuilder is not because it's not synchronised after string update...
+    c. StringBuffer is less efficient than StringBuilder.
+
+8. abstract class:
+    a. An abstract class instance cannot be created.
+    b. The use of constructors is permitted.
+    c. There is no need for an abstract method in an abstract class.
+    d. Final methods aren't allowed in abstract classes since they can't be overridden, but abstract methods are designed to be overridden.
+    e. We are prohibited from creating objects for any abstract class.
+    f. In an abstract class, we can define static methods.
+
+9. interface and abstract Difference
+    a. Inheritance Model: A class can implement multiple interfaces. But the class can extend only one abstract class.
+    b. State / Variables: Interface can only have static & final while abstract Can have regular instance variables (state).
+    c. Constructors: For interface Prohibited. For Abstract Permitted, used for constructor chaining.
+    d. Methods: Interface is Originally abstract only; can have default and static methods and private methods. While Abstract can have a mix of abstract (no body) and concrete (with body) methods.
+    e. Access Modifiers: Everything is public by default.Can use public, protected, private, or default.
+    f. Relationship TypeEstablishes an "is-capable-of" relationship.Establishes an "is-a" relationship.
+    g. an interface can be implemented using abstract class.
+
+sources:
+https://www.interviewbit.com/blog/java-developer-skills/
+https://www.interviewbit.com/blog/java-projects/
+https://www.interviewbit.com/blog/java-frameworks/
+https://www.interviewbit.com/java-mcq/
+https://www.interviewbit.com/blog/java-11-features/
+https://www.interviewbit.com/blog/java-8-features/
+https://www.interviewbit.com/blog/java-books/
+https://www.interviewbit.com/blog/java-developer-resume/
+https://www.interviewbit.com/blog/top-java-applications/
+https://www.interviewbit.com/blog/characteristics-of-java/
+https://www.scaler.com/topics/java/error-vs-exception-in-java/
