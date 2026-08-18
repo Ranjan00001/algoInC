@@ -1,4 +1,5 @@
-ever execute action statements (like printing, loops, or math) directly inside the body of a class. They must live inside a method or constructor.
+Java is a hybrid (non-pure) Object Oriented Language.
+Never execute action statements (like printing, loops, or math) directly inside the body of a class. They must live inside a method or constructor.
 Doesn't support multiple inheritance but supports multiple implementation of interface.
 In default method execution from interface the implementing class need to tell which interface's default method to be executed...
 
@@ -58,6 +59,53 @@ In default method execution from interface the implementing class need to tell w
     e. Access Modifiers: Everything is public by default.Can use public, protected, private, or default.
     f. Relationship TypeEstablishes an "is-capable-of" relationship.Establishes an "is-a" relationship.
     g. an interface can be implemented using abstract class.
+
+10. Types in Java:
+    - Object type and primitive types are treated differently.
+    - Object is stored in Heap and Primitive type is stored in Stack.
+    - Static memory is allocated at compile time and is stored in Stack.
+    - Primitive variables are stored directly in the Stack. Object variables are stored by reference in the Heap.
+
+	+------------------------------------------+----------------------------+------------------------------+
+    | Item                                     | Where is it declared?      | Memory Location              |
+    +------------------------------------------+----------------------------+------------------------------+
+    | Object                                   | Anywhere using new         | Heap                         |
+    | Local Variable (Primitive or Reference)  | Inside a method / block    | Stack                        |
+    | Instance Field (Primitive or Reference)  | Class level (non-static)   | Heap (Inside object payload) |
+    | Static Variable                          | Class level (static)       | Heap / Metaspace             |
+    +------------------------------------------+----------------------------+------------------------------+
+
+
+
+11. Memory structure:
+    +-------------------------------------------------------------+
+    |                        HEAP MEMORY                          |
+    |  (Shared across all threads, managed by Garbage Collector)  |
+    |                                                             |
+    |  - All Objects (e.g., String, MyClass)                      |
+    |  - All Arrays (e.g., int[], Object[])                       |
+    |  - Instance fields of objects                               |
+    +-------------------------------------------------------------+
+                                |
+                Reference Pointers (Addresses)
+                                |
+    +---------------------------v---------------------------------+
+    |                       STACK MEMORY                          |
+    |            (Per-thread, fast method execution)              |
+    |                                                             |
+    |  [ Stack Frame for Method A ]                               |
+    |   - Primitive local variables (int x = 10;)                 |
+    |   - Local reference variables (MyClass obj, int[] arr)      |
+    |  [ Stack Frame for Method B ]                               |
+    +-------------------------------------------------------------+
+
+12. Why distinction b/w Object and Primitive types:
+    1. Object overhead: every object maintians object header... What are inside Object Headers?
+        - While the primitive types have 0 overhead.
+    2. Primitive types are stored in contiguos raw memory... While Objects require de-referencing to fetch
+    3. Primitive live inside stack that is cleaned off immediately after method execution... while objects live inside heap until GC cleans them off.
+
+
 
 sources:
 https://www.interviewbit.com/blog/java-developer-skills/
