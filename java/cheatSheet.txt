@@ -98,14 +98,42 @@ In default method execution from interface the implementing class need to tell w
     |   - Local reference variables (MyClass obj, int[] arr)      |
     |  [ Stack Frame for Method B ]                               |
     +-------------------------------------------------------------+
+    The objects live on the Heap, while its reference variable lives on the Stack.
+    Primitives location depends on scope:
+        Local variable inside method Stack
+        Instance field inside class Heap (inside parent object payload)
+        Static variable Heap / Metaspace
 
 12. Why distinction b/w Object and Primitive types:
     1. Object overhead: every object maintians object header... What are inside Object Headers?
         - While the primitive types have 0 overhead.
     2. Primitive types are stored in contiguos raw memory... While Objects require de-referencing to fetch
     3. Primitive live inside stack that is cleaned off immediately after method execution... while objects live inside heap until GC cleans them off.
+    -- If we see at the JVM, it only supports 2 data types
+        - Primitive Type
+        - Reference Type
 
+13. Compiler: Converts .java code into .class bytecode.
+    Interpreter: Executes bytecode line-by-line immediately upon startup (zero startup delay).
+    Profiler: Counts execution frequency of methods/loops to detect "Hot Spots".
+    JIT Compiler (C1 / C2): Translates "Hot" bytecode into native CPU machine code at runtime.
+    Key Optimizations:
+        Method Inlining: Replaces method calls with body code.
+        Escape Analysis & Scalar Replacement: Replaces non-escaping Heap objects with primitive registers in CPU.
+        Profile-Guided Optimization (PGO): Uses runtime telemetry to make speculative jumps faster than static C code.
 
+14. JAR files:
+    - creating Java Archive using list of class files... application bundling
+    - Modular JAR vs. Traditional JAR:
+        Traditional Jar: Just a bundle of packages with no formal declaration of what it requires or shares with other code.
+        Modular JAR: Self-describing package that works directly with the module path for strong encapsulation and clean boundaries
+    - Multi-Release Jar:
+        Constains versioned classes in META-INF/versions/ for different jdk versions.
+
+15. JVM tools to help in visualisation and observability:
+    - javap
+    - jfr
+    - jcmd
 
 sources:
 https://www.interviewbit.com/blog/java-developer-skills/

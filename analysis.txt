@@ -62,3 +62,36 @@ Thinking $O(1)$ means the operation is instantaneous or precisely one CPU cycle.
 Trying to force every recurrence relation into the Master Theorem.
 *Example:* Trying to solve $T(n) = 2T(n/2) + n \log n$ using the standard Master Theorem.
 *Why it's wrong:* The Master Theorem only applies to recurrences of the exact form $T(n) = aT(n/b) + f(n)$ where $f(n)$ is a polynomial. For $f(n) = n \log n$, the polynomial difference condition fails, requiring the extended Master Theorem or a substitution method. 
+
+-----
+always start analysis from the innermost block...
+
+
+-------------- Practice -------------
+1. Questions around amortized analysis.
+2. Analysis for recursive programs (Master Theorem and general way)
+3. vector permutation(N);
+    vector used(N, 0);
+
+    void
+    try (int which, int what) {
+    // try taking the number “what” as the “which”-th element
+    permutation[which] = what;
+    used[what] = 1;
+
+    if (which == N - 1)
+        outputPermutation();
+    else
+        // try all possibilities for the next element
+        for (int next = 0; next < N; next++)
+        if (!used[next])
+            try (which + 1, next);
+
+    used[what] = 0;
+    }
+
+    int main() {
+    // try all possibilities for the first element
+    for (int first = 0; first < N; first++)
+        try (0, first);
+    }
