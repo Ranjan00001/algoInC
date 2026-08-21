@@ -95,3 +95,6 @@ always start analysis from the innermost block...
     for (int first = 0; first < N; first++)
         try (0, first);
     }
+
+Sources:
+1. https://www.bigocheatsheet.com/

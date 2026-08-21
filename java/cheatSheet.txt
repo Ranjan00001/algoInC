@@ -134,6 +134,7 @@ In default method execution from interface the implementing class need to tell w
     - javap
     - jfr
     - jcmd
+    - javadoc
 
 sources:
 https://www.interviewbit.com/blog/java-developer-skills/
