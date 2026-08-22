@@ -1,5 +1,9 @@
+package problems;
+
 import java.util.Arrays;
 import java.util.HashSet;
+import java.lang.Math;
+import problems.Sorting;
 
 public class Array {
 
@@ -68,6 +72,39 @@ public class Array {
         }
     }
 
+    public static int[] sortedSquares(int[] array) {
+
+        for (int i = 0; i < array.length; i++) {
+            array[i] *= array[i];
+        }
+        Sorting s = new Sorting();
+        s.mergeSort(array, 0, array.length - 1);
+        return array;
+    }
+
+    static int[] sortedSquares(int[] array, int secondApproach) {
+        int[] result;
+        if (secondApproach == 0) {
+            return sortedSquares(array);
+        } else {
+            int left = 0; int right = array.length - 1;
+            result = new int[array.length];
+            int pos = array.length - 1;
+            while (left <= right) {
+                if (Math.abs(array[left]) < Math.abs(array[right])) {
+                    result[pos--] = array[right] * array[right];
+                    right--;
+                } else {
+                    result[pos--] = array[left] * array[left];
+                    left++;
+                }
+            }
+        }
+        return result;
+    }
+
+    // rotate an array with given k
+
     public static void main(String[] args) {
         
         // Test Task 2: Segregation
@@ -83,5 +120,11 @@ public class Array {
         System.out.println("Array: " + Arrays.toString(testArray));
         System.out.println("Has Duplicates [O(1) Space]: " + checkDuplicateMemoryOptimized(testArray));
         System.out.println("Has Duplicates [O(N) Time]:  " + checkDuplicateTimeOptimized(testArray));
+
+        int[] input = {-4, -3, 0, 3, 10};
+        System.out.println(Arrays.toString(sortedSquares(input, 1)));
+
+
+
     }
 }
