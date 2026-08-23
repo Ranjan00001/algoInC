@@ -2,6 +2,7 @@ package problems;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.lang.Integer;
 import java.lang.Math;
 import problems.Sorting;
 
@@ -103,6 +104,21 @@ public class Array {
         return result;
     }
 
+    // Maximum sub-array sum
+    public static int maxSubArraySum(int[] array) {
+        int maxSum = Integer.MIN_VALUE;
+        int curSum = 0;
+        for (int i = 0; i < array.length; i++) {
+            curSum += array[i];
+            maxSum = Math.max(maxSum, curSum);
+            if (curSum < 0) {
+                curSum = 0;
+            }
+            
+        }
+        return maxSum;
+    }
+
     // TODO: rotate an array with given k
 
     public static void main(String[] args) {
@@ -124,7 +140,11 @@ public class Array {
         int[] input = {-4, -3, 0, 3, 10};
         System.out.println(Arrays.toString(sortedSquares(input, 1)));
 
-
-
+        // Test Task: Maximum Subarray Sum (Kadane's Algorithm)
+        int[] kadaneArr1 = {-2, 1, -3, 4, -1, 2, 1, -5, 4};
+        int[] kadaneArr2 = {-5, -2, -8, -1};
+        System.out.println("\n--- Task: Maximum Subarray Sum ---");
+        System.out.println("Array 1: " + Arrays.toString(kadaneArr1) + " -> Max Sum: " + maxSubArraySum(kadaneArr1));
+        System.out.println("Array 2: " + Arrays.toString(kadaneArr2) + " -> Max Sum: " + maxSubArraySum(kadaneArr2));
     }
 }
