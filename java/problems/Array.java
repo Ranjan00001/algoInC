@@ -103,7 +103,7 @@ public class Array {
         return result;
     }
 
-    // rotate an array with given k
+    // TODO: rotate an array with given k
 
     public static void main(String[] args) {
         
