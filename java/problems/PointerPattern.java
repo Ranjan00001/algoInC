@@ -135,22 +135,16 @@ public class PointerPattern {
         int current = 0;
         while (left <= current && current <= right) {
             if (nums[current] == 0) {
-                swap(nums, left, current);
+                Helper.swap(nums, left, current);
                 left++;
                 current++;
             } else if (nums[current] == 2){
-                swap(nums, right, current);
+                Helper.swap(nums, right, current);
                 right--;
             } else {
                 current++;
             }
         }
-    }
-
-    public static void swap(int[] array, int i, int j) {
-        int temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
     }
 
     /**

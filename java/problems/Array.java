@@ -119,7 +119,49 @@ public class Array {
         return maxSum;
     }
 
-    // TODO: rotate an array with given k
+    // rotate an array with given k
+    /**
+     * @param nums = [1,2,3,4,5,6,7]
+     * @param k = 3
+     * @return [5,6,7,1,2,3,4]
+     */
+    public static void rotate(int[] nums, int k) {
+        /* int left = 0;
+        int right = nums.length - k;
+        while (left < right) {
+            int temp = nums[left];
+            nums[left] = nums[right];
+            nums[left + k] = temp;
+        } 
+        -- We can't apply 2 pointer for this
+            Since the operations can't be segregated here
+            How much can we do in one loop... that's not clear here...
+        */
+        
+        // Need a different approach here...
+        /**
+         * something like swap a sub-array can work but that'll not be in-place
+         * swap(nums, k to n-k, n-k to n)
+         * swap(nums, 0 to k, k to 2k)
+         * 
+         * In-place:
+         * pick each number for n-k to n and then shift by one position to each of the elements
+         * 
+         */
+        /* int n = nums.length;
+        k %= n;
+        for (int i = n - k; i < n; i++) {
+            int temp = nums[i];
+            shift(nums, 0 + i - (n - k), i); // i - (n -k) is starting from 0 index and going till k index
+            nums[i - (n - k)] = temp;
+        } */ // this solves the problem but takes O(kn) times
+
+        int n = nums.length;
+        k %= n;
+        Helper.reverse(nums, 0, n - 1);
+        Helper.reverse(nums, 0, k - 1);
+        Helper.reverse(nums, k, n - 1);
+    }
 
     public static void main(String[] args) {
         
@@ -146,5 +188,10 @@ public class Array {
         System.out.println("\n--- Task: Maximum Subarray Sum ---");
         System.out.println("Array 1: " + Arrays.toString(kadaneArr1) + " -> Max Sum: " + maxSubArraySum(kadaneArr1));
         System.out.println("Array 2: " + Arrays.toString(kadaneArr2) + " -> Max Sum: " + maxSubArraySum(kadaneArr2));
+        
+        int[] nums = {1,2,3,4,5,6,7};
+        rotate(nums, 3);
+        System.out.println(Arrays.toString(nums));
+
     }
 }
