@@ -181,6 +181,30 @@ public class PointerPattern {
         return maxArea;
     }
 
+    /**
+     * Problem 5: Interval List Intersections
+     * --------------------------------------
+     * Description: You are given two lists of closed intervals, 'firstList' and 
+     * 'secondList', where firstList[i] = [start_i, end_i] and secondList[j] = [start_j, end_j]. 
+     * Each list of intervals is pairwise disjoint and sorted by start time.
+     * 
+     * Return the intersection of these two interval lists.
+     * An intersection of two closed intervals is a set of real numbers that are in 
+     * both intervals (e.g., [1, 3] and [2, 4] intersect at [2, 3]).
+     * 
+     * Example:
+     *   Input: firstList  = [[0,2],[5,10],[13,23],[24,25]]
+     *          secondList = [[1,5],[8,12],[15,24],[25,26]]
+     *   Output: [[1,2],[5,5],[8,10],[15,23],[24,24],[25,25]]
+     * 
+     * Target Time Complexity: O(M + N) where M, N are lengths of firstList & secondList
+     * Target Auxiliary Space: O(1) extra space (excluding output array)
+     */
+    public static int[][] intervalIntersection(int[][] firstList, int[][] secondList) {
+        
+        return new int[0][0];
+    }
+
     public static void main(String[] args) {
         System.out.println("=== Two-Pointer Practice Suite ===");
         
@@ -201,5 +225,11 @@ public class PointerPattern {
         // Test 4: Container With Most Water
         int[] heights = {1, 8, 6, 2, 5, 4, 8, 3, 7, 1};
         System.out.println("4. Max Water Area: " + maxArea(heights));
+
+        // Test 5: Interval List Intersections
+        int[][] firstList = {{0, 2}, {5, 10}, {13, 23}, {24, 25}};
+        int[][] secondList = {{1, 5}, {8, 12}, {15, 24}, {25, 26}};
+        int[][] intersections = intervalIntersection(firstList, secondList);
+        System.out.println("5. Interval Intersections count: " + intersections.length);
     }
 }
