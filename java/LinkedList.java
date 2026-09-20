@@ -7,19 +7,6 @@ public class LinkedList {
     LinkedNode head;
     int size;
 
-    public class LinkedNode {
-        Object data;
-        LinkedNode next;
-        LinkedNode(Object data) {
-            this.data = data;
-            this.next = null;
-        }
-
-        public boolean hasNext() {
-            return this.next != null;
-        }
-    }
-
     public LinkedList(Object data) {
         this.head = new LinkedNode(data);
         this.size = 1;
