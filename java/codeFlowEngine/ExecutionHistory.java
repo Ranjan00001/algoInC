@@ -59,6 +59,7 @@ public class ExecutionHistory {
                 Node node = this.head;
                 this.head = this.head.next;
                 this.size--;
+                if (size == 0) tail = null;
                 return node;
             }
         }
@@ -70,12 +71,14 @@ public class ExecutionHistory {
             }
 
             Node prev = null, current = this.head, next;
-            while (current.hasNext()) {
+            this.tail = this.head;
+            while (current != null) {
                 next = current.next;
                 current.next = prev;
                 prev = current;
                 current = next;
             }
+            this.head = prev;
         }
 
         Object getIthFromStart(int i) {
@@ -89,7 +92,7 @@ public class ExecutionHistory {
     }
 
     void append(Object command) { //— Appends a command to the history in $O(1)$ using a tail pointer.
-        history.addFront(command);
+        history.addLast(command);
     }
 
     void undoLast() { //— Removes the most recent command in $O(1)$ or $O(N)$.
@@ -101,5 +104,23 @@ public class ExecutionHistory {
     Object findKthFromEnd(int k) { //— Returns the $k$-th command from the end in a single pass using Fast & Slow Pointers.
         int indexFromStart = history.size - k;
         return history.getIthFromStart(indexFromStart);
+    }
+
+    Object getKthFromEndObject(int k) {
+        // we can't use size here
+        Node slow = history.head, fast = history.head;
+        // advance fast by k
+        for (int i = 0; i < k; i++) {
+            if (fast.hasNext()) {
+                fast = fast.next;
+            } else {
+                return new Object(null);
+            }
+        }
+        while (fast != null) {
+            slow = slow.next;
+            fast = fast.next;
+        }
+        return slow.element;
     }
 }
