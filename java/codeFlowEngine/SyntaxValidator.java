@@ -1,7 +1,5 @@
 package codeFlowEngine;
 
-import java.util.EmptyStackException;
-
 public class SyntaxValidator {
 
     class Stack {
@@ -59,11 +57,14 @@ public class SyntaxValidator {
 
     boolean isValidBracket(String brackets) {
         Stack s = new Stack();
+        // All the elements of brackets should be among openBracks or closedBracks.
+        String openBracks = "[{(";
+        String closeBracks = ")}]";
         for (int i = 0; i < brackets.length(); i++) {
-            if (s.top().equals(getPairBracket(brackets.charAt(i)))) {
-                s.pop();
-            } else {
+            if (openBracks.contains(brackets.substring(i))) {
                 s.add(brackets.charAt(i));
+            } else if (closeBracks.contains(brackets.substring(i)) && !s.pop().equals(brackets.charAt(i)))  {
+                return false;
             }
         }
         return s.size == 0;

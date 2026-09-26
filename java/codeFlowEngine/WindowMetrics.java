@@ -33,7 +33,7 @@ public class WindowMetrics {
 
         return maxSum;
     }
-    @deprecated
+    @Deprecated
     int smallestSubArraySum(int[] array, int target) {
         // Not able to get the solution...
         // How can we manage the smallest array range so that their sum can get >= target

@@ -114,7 +114,7 @@ public class ExecutionHistory {
             if (fast.hasNext()) {
                 fast = fast.next;
             } else {
-                return new Object(null);
+                throw new java.util.NoSuchElementException("k exceeds history size");
             }
         }
         while (fast != null) {

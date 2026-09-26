@@ -37,9 +37,9 @@ public class CircularQueue extends ExecutionHistory {
         return head;
     }
 
-    boolean isFull() {
+    /* boolean isFull() {
         return head == tail && size != 0;
-    }
+    } */ // this one is not applicable for this approach because we're using linkedlist
 
     boolean isEmpty() {
         return size == 0;

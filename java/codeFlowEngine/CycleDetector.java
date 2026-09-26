@@ -12,7 +12,7 @@ public class CycleDetector extends ExecutionHistory { // can we have a more natu
             }
         }
         while (fast != null && fast.hasNext()) {
-            if (fast = slow) {
+            if (fast == slow) {
                 return slow;
             }
             fast = fast.next;
