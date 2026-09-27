@@ -1,6 +1,7 @@
 package language;
 
 import language.contracts.*;
+import language.ds.*;
 import language.exception.*;
 import language.functional.*;
 import language.model.*;
@@ -9,6 +10,7 @@ import language.telemetry.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -36,6 +38,7 @@ public class Main {
         runModule5_NestedClassesAndGenerics();
         runModule6_FunctionalInterfacesAndAnonymousClasses();
         runModule7_TelemetryEngineAndPerformance();
+        runModule8_DataStructureDomainChallenges();
 
         System.out.println("\n==================================================================");
         System.out.println("     ALL PRACTICE MODULE TEST SCENARIOS EXECUTED SUCCESSFULLY!   ");
@@ -203,4 +206,59 @@ public class Main {
 
         System.out.println("Module 7 Completed.\n");
     }
+
+    private static void runModule8_DataStructureDomainChallenges() {
+        System.out.println("--- MODULE 8: STEALTH DOMAIN DATA STRUCTURE CHALLENGES ---");
+
+        // 1. Order State Reversal (LIFO Challenge)
+        OrderActionTracker tracker = new OrderActionTracker();
+        tracker.recordAction("STATUS_CHANGE: PENDING -> PROCESSING");
+        tracker.recordAction("PAYMENT_AUTHORIZED: TXN-991");
+        System.out.println("[DS Challenge 1] Most recent action: " + tracker.peekLastAction());
+        System.out.println("[DS Challenge 1] Undo action: " + tracker.undoLastAction());
+
+        // 2. High-Volume Order Buffer (FIFO Challenge)
+        OrderFulfillmentDispatcher dispatcher = new OrderFulfillmentDispatcher();
+        Order ord1 = new Order.Builder("ORD-DS-01").customerName("Alice").baseAmount(300.0).build();
+        Order ord2 = new Order.Builder("ORD-DS-02").customerName("Bob").baseAmount(150.0).build();
+        dispatcher.enqueueOrder(ord1);
+        dispatcher.enqueueOrder(ord2);
+        System.out.println("[DS Challenge 2] Dispatched oldest order: " + dispatcher.processNextOrder().getOrderId());
+
+        // 3. Historical Audit Trail Stream (Head/Tail Stream Challenge)
+        AuditTrailContainer auditContainer = new AuditTrailContainer();
+        auditContainer.appendLog("USER_LOGIN_EVENT");
+        auditContainer.prependHighPriorityLog("SECURITY_ALERT_DDOS");
+        System.out.println("[DS Challenge 3] Latest head audit log: " + auditContainer.peekLatestHeadLog());
+
+        // 4. Transaction Idempotency Registry (O(1) Uniqueness Challenge)
+        TransactionIdempotencyRegistry idempotency = new TransactionIdempotencyRegistry();
+        boolean firstTry = idempotency.registerTransaction("TXN-1001");
+        boolean secondTry = idempotency.registerTransaction("TXN-1001");
+        System.out.println("[DS Challenge 4] First registration: " + firstTry + " | Re-try duplicate: " + (!secondTry));
+
+        // 5. Priority Fulfillment Engine (Priority Extraction Challenge)
+        PriorityFulfillmentEngine priorityEngine = new PriorityFulfillmentEngine();
+        priorityEngine.enqueuePriorityOrder(ord2, 150.0);
+        priorityEngine.enqueuePriorityOrder(ord1, 800.0);
+        System.out.println("[DS Challenge 5] Highest priority order polled: " + priorityEngine.pollHighestPriorityOrder().getOrderId());
+
+        // 6. Catalog Price Range Indexer (Sorted Range Search Challenge)
+        CatalogPriceIndexer priceIndexer = new CatalogPriceIndexer();
+        priceIndexer.indexOrder(ord1); // 300.0
+        priceIndexer.indexOrder(ord2); // 150.0
+        List<Order> filtered = priceIndexer.getOrdersInPriceRange(100.0, 250.0);
+        System.out.println("[DS Challenge 6] Orders in range $100-$250 count: " + filtered.size());
+
+        // 7. Evaluation Risk LRU Cache (LRU Cache Challenge)
+        EvaluationCacheEngine lruCache = new EvaluationCacheEngine(2);
+        lruCache.putRiskScore("ORD-DS-01", true);
+        lruCache.putRiskScore("ORD-DS-02", false);
+        lruCache.putRiskScore("ORD-DS-03", true); // Evicts ORD-DS-01 (LRU)
+        System.out.println("[DS Challenge 7] Cached score for ORD-DS-01 (evicted?): " + lruCache.getCachedRiskScore("ORD-DS-01"));
+        System.out.println("[DS Challenge 7] Cached score for ORD-DS-03: " + lruCache.getCachedRiskScore("ORD-DS-03"));
+
+        System.out.println("Module 8 Completed.\n");
+    }
 }
+
