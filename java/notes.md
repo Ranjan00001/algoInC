@@ -72,6 +72,7 @@ Three methods in `Spliterator`:
   * **Unchecked Exceptions:** Inherit from `RuntimeException` (e.g. `NullPointerException`, `IndexOutOfBoundsException`, `NoSuchElementException`).
   * *Visual Map:* See [`Hierarchy_of_Exceptions.png`](./Hierarchy_of_Exceptions.png).
 
+### Note: If failure caused by App Logic or Code? then It's a Exception else Error...
 ---
 
 ## 6. String Pool & Memory
@@ -214,6 +215,36 @@ Three methods in `Spliterator`:
 1. **Variable Shadowing:** When local parameter names match field names (`this.size = size;`).
 2. **Constructor Chaining:** `this(...)` matches any constructor signature, must be the **VERY first statement** inside a constructor.
 3. **Passing or Returning the Current Object:** Returning `return this;` or passing `this` to external methods.
+
+---
+
+## 17. Abstract vs Interface (Which one to use when)
+```mermaid
+flowchart TD
+    Start["Designing a Component Type"] --> NeedState{"Do subclasses need shared mutable fields or constructor initialization?"}
+    NeedState -- Yes --> AbstractClass["Use Abstract Class (e.g., AbstractOrderProcessor)"]
+    NeedState -- No --> MultipleCap{"Does a class need to combine multiple unrelated behaviors?"}
+    MultipleCap -- Yes --> Interface["Use Interface (e.g., EventProcessor + Auditable)"]
+    MultipleCap -- No --> TemplatePattern{"Are you enforcing a fixed algorithm skeleton (Template Method Pattern)?"}
+    TemplatePattern -- Yes --> AbstractClass
+    TemplatePattern -- No --> Interface
+```
+
+1. **State & Lifecycle (`Is-A` vs `Can-Do`)**:
+   - Use an **Abstract Class** when classes share identity and state (`processorId`, execution counters).
+   - Use an **Interface** when classes from completely different hierarchies share a capability (`Auditable`, `Runnable`, `Comparable`).
+2. **Multiple Inheritance Constraints**:
+   - Java permits extending only **ONE** class (abstract or concrete).
+   - A class can implement **MULTIPLE** interfaces.
+3. **Template Method Pattern vs Pure Contract**:
+   - If parent code needs to execute step A $\rightarrow$ step B $\rightarrow$ step C while letting subclasses customize step B, use an **Abstract Class**.
+   - If parent code only cares *that* a operation can be performed, use an **Interface**.
+4. **Evolution & Default Methods**:
+   - Since Java 8, interfaces support `default` and `static` methods (and Java 9 `private` helper methods). However, default methods **cannot** mutate instance state because interfaces have no instance fields.
+
+---
+
+## 18. 
 
 ---
 
