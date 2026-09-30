@@ -33,6 +33,9 @@ public class DigitalOrderProcessor extends AbstractOrderProcessor {
         if (order.getPaymentMethod() == null) {
             throw new OrderProcessingException("ERR_PAYMENT_NULL", "Payment method required");
         }
+        if (order.getPaymentMethod().equals("BANK_TRANSFER")) {
+            throw new OrderProcessingException("ERR_PAYEMENT_TYPE", "Digital Order needs either Crypto or Credit Card payment");
+        }
     }
 
     /**
@@ -43,6 +46,6 @@ public class DigitalOrderProcessor extends AbstractOrderProcessor {
     @Override
     protected void processOrderDetails(Order order) throws OrderProcessingException {
         // TODO: Implement digital fulfillment logic
-        System.out.println("[DIGITAL PROCESSOR]: Generating digital download key for " + order.getOrderId() + " (" + order.getPaymentMethod().getPaymentType() + ")");
+        System.out.println("[DIGITAL PROCESSOR]: Generating digital activation key for " + order.getOrderId() + " (" + order.getPaymentMethod().getPaymentType() + ")");
     }
 }

@@ -25,7 +25,11 @@ public interface EventProcessor<T> {
      */
     default void logEvent(T event) {
         // TODO: Implement default logging logic here
-        System.out.println("[EventProcessor LOG]: " + event);
+        System.out.println(formatEvent(event));
+    }
+
+    private String formatEvent(T event) {
+        return "[EventProcessor LOG]: " + event;
     }
 
     /**
