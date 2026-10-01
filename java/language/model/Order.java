@@ -1,6 +1,8 @@
 package language.model;
 
 import language.contracts.PaymentMethod;
+import language.exception.OrderProcessingException;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -53,9 +55,12 @@ public class Order {
      * TODO: Task 1 - Basic Overloaded Method (No parameters beyond base amount)
      * Requirements: Return baseAmount as final total.
      */
-    public double calculateTotalCost() {
+    public double calculateTotalCost() throws OrderProcessingException {
         // TODO: Implement base calculation
-        return baseAmount;
+        if (baseAmount < 0) {
+            throw new OrderProcessingException("ERR_BASE_AMOUNT", "Base amount can't be negtive");
+        }
+        return baseAmount + (baseAmount * 0.01); // Adding 1% platform charge on baseamount
     }
 
     /**
@@ -64,7 +69,13 @@ public class Order {
      */
     public double calculateTotalCost(double taxRatePercentage) {
         // TODO: Implement calculation with tax rate
-        return baseAmount + (baseAmount * (taxRatePercentage / 100.0));
+        try {
+            double amountWithoutTax = calculateTotalCost();
+            return amountWithoutTax + (amountWithoutTax * (taxRatePercentage / 100.0));
+        } catch (OrderProcessingException e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 
     /**
@@ -73,8 +84,13 @@ public class Order {
      */
     public double calculateTotalCost(double taxRatePercentage, double flatDiscount) {
         // TODO: Implement calculation with discount and tax rate
-        double discounted = Math.max(0, baseAmount - flatDiscount);
-        return discounted + (discounted * (taxRatePercentage / 100.0));
+        try {
+            double discounted = Math.max(0, calculateTotalCost() - flatDiscount);
+            return discounted + (discounted * (taxRatePercentage / 100.0));
+        } catch (OrderProcessingException e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 
     // =========================================================================

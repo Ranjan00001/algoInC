@@ -26,7 +26,7 @@ import java.util.function.Predicate;
  */
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws OrderProcessingException {
         System.out.println("==================================================================");
         System.out.println("      ADVANCED JAVA MASTERY & DEVELOPMENT PRACTICE SUITE         ");
         System.out.println("==================================================================\n");
@@ -62,7 +62,7 @@ public class Main {
         System.out.println("Module 1 Completed.\n");
     }
 
-    private static void runModule2_PolymorphismOverloadingOverriding() {
+    private static void runModule2_PolymorphismOverloadingOverriding() throws OrderProcessingException {
         System.out.println("--- MODULE 2: POLYMORPHISM (OVERLOADING & OVERRIDING) ---");
 
         Order testOrder = new Order.Builder("ORD-1001")
