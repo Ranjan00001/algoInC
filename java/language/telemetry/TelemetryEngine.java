@@ -2,6 +2,7 @@ package language.telemetry;
 
 import language.exception.OrderProcessingException;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import java.util.List;
  * 2. String Pool interning (.intern() memory identity check).
  * 3. Thread UncaughtExceptionHandler for fault isolation.
  * 4. Error vs Exception recovery semantics.
+ * 5. Dynamic Reflection & Private Method Invocation.
  */
 public class TelemetryEngine {
 
@@ -90,4 +92,26 @@ public class TelemetryEngine {
         System.out.println(String.format("[TELEMETRY BENCHMARK] Primitive double[]: %d ns | Boxed List<Double>: %d ns",
                 (endPrimitive - startPrimitive), (endBoxed - startBoxed)));
     }
+
+    /**
+     * TODO: Practice Task 4 - Dynamic Reflection & Private Method Invocation
+     * Requirements:
+     * - Inspect the target object's Class using target.getClass().
+     * - Retrieve the Method object using getDeclaredMethod(methodName).
+     * - Enable access to private/protected method via method.setAccessible(true).
+     * - Invoke the method on target using method.invoke(target) and return the output.
+     */
+    public Object invokePrivateDiagnosticMethod(Object target, String methodName) {
+        // TODO: Implement reflective private method lookup and invocation
+        Class<?> clazz = target.getClass();
+        try {
+            Method method = clazz.getDeclaredMethod(methodName);
+            method.setAccessible(true);
+            return method.invoke(target);
+        } catch (Exception e) {
+            System.err.println(e);
+            return null;
+        }
+    }
 }
+

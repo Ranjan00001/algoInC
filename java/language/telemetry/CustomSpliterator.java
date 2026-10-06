@@ -73,4 +73,8 @@ public class CustomSpliterator implements Spliterator<Double> {
     public int characteristics() {
         return ORDERED | SIZED | SUBSIZED | IMMUTABLE;
     }
+
+    private void reflectionCheckMethod() {
+        System.err.println("Executed Successfully");
+    }
 }

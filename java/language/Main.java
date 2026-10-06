@@ -204,6 +204,10 @@ public class Main {
         // 3. Memory Layout Benchmark
         engine.compareMemoryLayoutSpeed();
 
+        // 4. Private method invokation through java reflection.
+        CustomSpliterator cs = new CustomSpliterator(new double[] {1, 2, 3, 4}, 0, 1);
+        engine.invokePrivateDiagnosticMethod(cs, "reflectionCheckMethod");
+
         System.out.println("Module 7 Completed.\n");
     }
 

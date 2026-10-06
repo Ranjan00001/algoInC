@@ -47,11 +47,24 @@ graph TD
 2. **Template Method Pattern**:
    - Abstract classes enforce fixed algorithm execution order: [process(...)](./processor/AbstractOrderProcessor.java#L35).
 
-### Variable Modifiers (`static`, `final`, Instance)
-- `protected String id;` -> **Mutable Instance Field**: Unique per object instance, re-assignable.
-- `protected final String id;` ([AbstractOrderProcessor.java:L20](./processor/AbstractOrderProcessor.java#L20)) -> **Immutable Instance Field**: Unique per object instance, assigned **exactly once** during construction.
-- `public static final String VER;` -> **Global Class Constant**: Stored once in Class metadata.
-- **Single Assignment Rule**: A `final` field can **NEVER** be assigned twice—not even within the same constructor or across constructor chaining.
+### Variable & Field Modifiers (`static`, `final`, `transient`, `volatile`)
+
+| Modifier | Primary Function / Guarantee | Serialization Behavior | Memory / Threading Behavior |
+| :--- | :--- | :--- | :--- |
+| **`final`** | **Immutability & Single Assignment**: Assigned exactly once during initialization. | Serialized normally | Thread-safe published state after constructor completion |
+| **`transient`** | **Serialization Exclusion**: Skips field during byte-stream encoding. | **Skipped** (resets to `null`/`0`/`false` on deserialization) | Standard heap variable |
+| **`volatile`** | **Visibility Guarantee**: Flushes reads/writes directly to/from main RAM. | Serialized normally | Bypasses per-core L1/L2 caches; prevents instruction reordering |
+| **`static`** | **Class-Level Scope**: Shared across all instances of a class. | Not serialized with instance state | Resides once in Metaspace |
+
+1. **`protected String id;`** -> **Mutable Instance Field**: Unique per object instance, re-assignable.
+2. **`protected final String id;`** ([AbstractOrderProcessor.java:L20](./processor/AbstractOrderProcessor.java#L20)) -> **Immutable Instance Field**: Unique per object instance, assigned **exactly once** during construction.
+3. **`public static final String VER;`** -> **Global Class Constant**: Stored once in Class metadata.
+4. **`transient` Keyword**:
+   - Used to mark sensitive fields (passwords, encryption keys, credit card CVVs), temporary calculation caches, or non-serializable system handles (database connections, sockets, threads) so Java's `ObjectOutputStream` ignores them.
+   - When deserialized via `ObjectInputStream`, `transient` fields receive default primitive/reference values (`null` for objects, `0` for numbers, `false` for booleans).
+5. **`volatile` Keyword**:
+   - Ensures that updates made by one thread are **immediately visible to all other threads** by forcing reads/writes directly to main memory rather than local CPU L1/L2 caches.
+   - **Crucial Distinction (`volatile` vs. `synchronized`)**: `volatile` guarantees **visibility**, but it does **NOT** guarantee **atomicity**. For example, `volatile int count; count++;` is NOT thread-safe because `count++` consists of 3 distinct steps (read, increment, write). For atomic compound operations, use `AtomicInteger` or `synchronized`.
 
 ### Fluent Builder Pattern (`Order.Builder`) vs Protobuf
 - **Fluent Builder**: Uses field-named methods ([Order.Builder](./model/Order.java#L96-L128)) without `set` prefixes for clean readable domain assembly. Getters belong on the constructed immutable object ([Order](./model/Order.java#L1-L90)), not the transient builder.
@@ -135,10 +148,57 @@ PECS evaluates parameters from the perspective of **YOUR METHOD'S OPERATION**:
 
 Seven domain feature modules framed strictly through real-world operational constraints:
 
-1. **[OrderActionTracker.java](./ds/OrderActionTracker.java#L25)**: **LIFO** State Reversal Stack (`Deque.push() / pop()`).
-2. **[OrderFulfillmentDispatcher.java](./ds/OrderFulfillmentDispatcher.java#L25)**: **FIFO** Order Dispatch Queue (`Queue.offer() / poll()`).
-3. **[AuditTrailContainer.java](./ds/AuditTrailContainer.java#L25)**: **Double-ended** Event Stream (`LinkedList.addFirst() / addLast()`).
-4. **[TransactionIdempotencyRegistry.java](./ds/TransactionIdempotencyRegistry.java#L24)**: **`O(1)`** Duplicate Guard (`HashSet.add() / contains()`).
-5. **[PriorityFulfillmentEngine.java](./ds/PriorityFulfillmentEngine.java#L26)**: **Priority** Urgency Dispatcher (`PriorityQueue` with `Comparator`).
-6. **[CatalogPriceIndexer.java](./ds/CatalogPriceIndexer.java#L24)**: **`O(log N)` Sorted Price Range Query** (`TreeMap.subMap()`).
-7. **[EvaluationCacheEngine.java](./ds/EvaluationCacheEngine.java#L23)**: **`O(1)` LRU Risk Cache Eviction** (`LinkedHashMap` with `accessOrder = true`).
+1. **[OrderActionTracker.java](./ds/OrderActionTracker.java#L25)**: **LIFO State Reversal Stack** (`Deque.push() / pop()`). Used for step-by-step transaction undo/rollback.
+2. **[OrderFulfillmentDispatcher.java](./ds/OrderFulfillmentDispatcher.java#L25)**: **FIFO Order Dispatch Queue** (`Queue.offer() / poll()`). Guarantees strict arrival-order processing.
+3. **[AuditTrailContainer.java](./ds/AuditTrailContainer.java#L25)**: **Double-ended Event Stream** (`LinkedList.addFirst() / addLast()`). Enables $O(1)$ head insertion for urgent security alerts alongside $O(1)$ tail audit logs.
+4. **[TransactionIdempotencyRegistry.java](./ds/TransactionIdempotencyRegistry.java#L24)**: **$O(1)$ Duplicate Guard** (`HashSet.add() / contains()`). Prevents double-billing on retried web requests.
+5. **[PriorityFulfillmentEngine.java](./ds/PriorityFulfillmentEngine.java#L26)**: **Priority Urgency Dispatcher** (`PriorityQueue` with `Comparator`). Automatically extracts highest-value orders first in $O(\log N)$ time.
+6. **[CatalogPriceIndexer.java](./ds/CatalogPriceIndexer.java#L24)**: **$O(\log N)$ Sorted Price Range Query** (`TreeMap.subMap()`). Performs range queries over prices without full collection scans.
+7. **[EvaluationCacheEngine.java](./ds/EvaluationCacheEngine.java#L23)**: **$O(1)$ LRU Risk Cache Eviction** (`LinkedHashMap` with `accessOrder = true`). Automatically purges least-recently accessed risk scores when capacity limit is reached.
+
+---
+
+## 7. Telemetry Engine, JVM Performance & Reflection (`language.telemetry`)
+
+### String Pool Interning (`.intern()`)
+- `new String("SUCCESS")` creates an explicit heap object, so identity comparison `s1 == s2` evaluates to `false`.
+- Calling `s1.intern()` returns the canonical reference from the JVM String Pool, making `s1.intern() == s2` evaluate to `true` ([TelemetryEngine.java:L29-L37](./telemetry/TelemetryEngine.java#L29-L37)).
+
+### Asynchronous Fault Isolation (`Thread.UncaughtExceptionHandler`)
+- Runtime exceptions inside background worker threads do not crash the main thread if isolated with `thread.setUncaughtExceptionHandler((t, e) -> ...)` ([TelemetryEngine.java:L47-L60](./telemetry/TelemetryEngine.java#L47-L60)).
+- Essential for telemetry sensors, background loggers, and microservice worker pools.
+
+### Primitive Arrays vs. Boxed Collections Benchmark & CPU Cache Locality
+- `double[]` stores primitive numbers contiguously in memory with **0 object header overhead**, maximizing CPU L1/L2 cache line hits.
+- `List<Double>` stores pointers to heap-allocated `Double` object wrappers (24-byte object header + 8-byte reference pointer per entry), causing pointer indirection and CPU cache misses ([TelemetryEngine.java:L68-L94](./telemetry/TelemetryEngine.java#L68-L94)).
+
+### Dynamic Reflection & Private Method Invocation
+- `Class<?> clazz = target.getClass();` inspects object metadata at runtime.
+- `Method method = clazz.getDeclaredMethod("methodName");` retrieves non-public method references.
+- `method.setAccessible(true);` bypasses standard Java access modifiers to invoke private diagnostic methods dynamically ([TelemetryEngine.java:L104-L115](./telemetry/TelemetryEngine.java#L104-L115)).
+
+### Custom Spliterator & Parallel Stream Decomposition (`CustomSpliterator`)
+- **`Spliterator<T>` (Splitable Iterator)**: Introduced in Java 8 to support parallel data partitioning and stream processing over custom data structures.
+- **`tryAdvance(Consumer action)`**: Combines `hasNext()` check and `next()` element retrieval into a single operation, eliminating double bounds checking ([CustomSpliterator.java:L36-L43](./telemetry/CustomSpliterator.java#L36-L43)).
+- **`trySplit()`**: Divides the dataset in half (`mid = (origin + fence) >>> 1`) and returns a new `CustomSpliterator` covering the prefix range `[origin, mid)` while the original spliterator updates its range to `[mid, fence)` ([CustomSpliterator.java:L56-L65](./telemetry/CustomSpliterator.java#L56-L65)).
+- **Characteristics Flags (`ORDERED | SIZED | SUBSIZED | IMMUTABLE`)**: Informs the JVM Stream execution engine of structural properties so it can optimize execution (e.g. avoiding unnecessary sorting or dynamic array re-allocations).
+
+---
+
+## 8. Built-in Functional Interfaces & Anonymous Classes (`language.functional`)
+
+### The 6 Core Built-In Functional Interfaces
+
+| Interface | Method Signature | Purpose / Domain Use Case | Implementation Example |
+| :--- | :--- | :--- | :--- |
+| **`Predicate<T>`** | `boolean test(T t)` | Evaluates a boolean condition | [isHighValueOrder](./functional/FunctionalPracticeSuite.java#L36-L39) |
+| **`Consumer<T>`** | `void accept(T t)` | Consumes data, produces side-effect (logging, metrics) | [auditLogger](./functional/FunctionalPracticeSuite.java#L49-L52) |
+| **`Supplier<T>`** | `T get()` | Lazy value generation (UUIDs, timestamps) | [transactionIdSupplier](./functional/FunctionalPracticeSuite.java#L62-L65) |
+| **`Function<T, R>`** | `R apply(T t)` | Transforms input type `T` into output type `R` | [orderSummaryTransformer](./functional/FunctionalPracticeSuite.java#L76-L79) |
+| **`UnaryOperator<T>`** | `T apply(T t)` | Special `Function<T, T>` where input & output types match | [surchargeOperator](./functional/FunctionalPracticeSuite.java#L89-L92) |
+| **`BinaryOperator<T>`**| `T apply(T t1, T t2)` | Combines 2 inputs of type `T` into 1 result of type `T` | [taxRateAggregator](./functional/FunctionalPracticeSuite.java#L102-L105) |
+
+### Anonymous Inner Class vs. Lambda Expression Mechanics
+- **Anonymous Inner Class (`new Runnable() { ... }`)**: Compiles to an explicit `.class` file (`Main$1.class`), has its own `this` instance reference, and can instantiate interfaces with multiple methods ([FunctionalPracticeSuite.java:L116-L124](./functional/FunctionalPracticeSuite.java#L116-L124)).
+- **Lambda Expression (`() -> ...`)**: Utilizes JVM `invokedynamic` bytecode without extra `.class` overhead; `this` inside a lambda refers to the enclosing outer class instance.
+
